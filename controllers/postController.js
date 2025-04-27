@@ -52,3 +52,16 @@ exports.serveStatic = (req, res) => {
     }
   });
 };
+
+exports.getAllPosts = (req, res) => {
+  const posts = Post.getAll();
+
+  const list = posts
+    .map(p => `<li class="text-blue-600 hover:underline"><a href="/post?id=${p.id}">${p.title}</a></li>`)
+    .join('');
+
+  const html = render('archive.html', { posts: list });
+
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(html);
+};
